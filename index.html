@@ -113,25 +113,10 @@
 
         <label for="month">Select Month:</label>
         <select id="month" class="emissionInput">
-            <option value="January">January</option>
-            <option value="February">February</option>
-            <option value="March">March</option>
-            <option value="April">April</option>
-            <option value="May">May</option>
-            <option value="June">June</option>
-            <option value="July">July</option>
-            <option value="August">August</option>
-            <option value="September">September</option>
-            <option value="October">October</option>
-            <option value="November">November</option>
-            <option value="December">December</option>
         </select>
 
         <label for="route">Select Route:</label>
         <select id="route" class="emissionInput">
-            <option value="Torshavn_Hirtshals">Torshavn to Hirtshals</option>
-            <option value="Torshavn_Seydisfjordur">Torshavn to Seydisfjordur</option>
-            <option value="Hirtshals_Seydisfjordur">Hirtshals to Seydisfjordur</option>
         </select>
 
         <input type="checkbox" id="roundtrip" value="roundtrip" class="emissionInput">
@@ -141,10 +126,6 @@
         <label for="vehicle">Select Vehicle:</label>
         <select id="vehicle" class="emissionInput">
             <option value="none">No Vehicle</option>
-            <option value="type1">Small Car</option>
-            <option value="type2">SUV</option>
-            <option value="type3">Motorcycle</option>
-            <option value="type4">Truck</option>
         </select>
 
         <label for="passengers">Number of Passengers:</label>
@@ -152,11 +133,27 @@
 
         <div id="result"></div>
 
+        <div id="extra_info" class="notice"></div>
+
         <div class="notice">This is an experimental calculator, no real values are being use.</div>
     </div>
 
     <script>
         let co2Data = {};
+
+        function generateSelectOptions(data, selectElementId) {
+            const selectElement = document.getElementById(selectElementId);
+            for (const key in data) {
+                const option = document.createElement('option');
+                option.value = key;
+                option.text = key.replace(/_/g, ' ').replace(/-/g, ' to ');
+                selectElement.appendChild(option);
+            }
+        }
+
+        function gToKg(g) {
+            return (g / 1000).toFixed(2);
+        }
 
         function calculateEmission() {
             const month = document.getElementById("month").value;
@@ -184,6 +181,18 @@
             const totalKg = (totalEmission / 1000).toFixed(2);
 
             document.getElementById("result").innerHTML = "Total CO2 Emission for " + passengers + " passengers: " + totalKg + " kg CO2";
+
+            document.getElementById("extra_info").innerHTML = "With an estimated " + MonthData.passengers + " passengers at " + month + ", with an average of " + gToKg(paxEmission) + " kg CO2 per pax";
+
+            if(vehicle != 'none') {
+                document.getElementById("extra_info").innerHTML += " with the additional " + vehicleWeight.toFixed(2) + " kg of the " + vehicle.replace(/_/g, ' ') + ".";
+            }
+
+            if(roundtrip) {
+                document.getElementById("extra_info").innerHTML += " and the roundtrip distance of " + (routeDistance * 2).toFixed(2) + " nautical miles.";
+            } else {
+                document.getElementById("extra_info").innerHTML += " and the distance of " + routeDistance.toFixed(2) + " nautical miles.";
+            }
         }
 
         // Fetch the data from the JSON file
@@ -191,6 +200,13 @@
             .then(response => response.json())
             .then(data => {
                 co2Data = data;
+
+                // Generate the select options
+                generateSelectOptions(co2Data.months, "month");
+                generateSelectOptions(co2Data.routes, "route");
+                generateSelectOptions(co2Data.vehicles, "vehicle");
+
+                // Initial calculation
                 calculateEmission();
 
                 // Add a change event listener to each of them

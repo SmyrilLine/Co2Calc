@@ -1,24 +1,23 @@
 {
     "routes": {
-        "Torshavn_Hirtshals": 634.9892,
-        "Torshavn_Seydisfjordur": 275.378,
-        "Hirtshals_Seydisfjordur": 910.3672
+        "Torshavn-Hirtshals": 634.9892,
+        "Hirtshals-Torshavn": 634.9892,
+        "Torshavn-Seydisfjordur": 275.378,
+        "Seydisfjordur-Torshavn": 275.378,
+        "Hirtshals-Seydisfjordur": 910.3672,
+        "Seydisfjordur-Hirtshals": 910.3672
     },
     "vehicles": {
-        "type1": {
-            "name": "Small Car",
+        "Small_Car": {
             "weight": 1500
         },
-        "type2": {
-            "name": "SUV",
+        "SUV": {
             "weight": 2200
         },
-        "type3": {
-            "name": "Motorcycle",
+        "Motorcycle": {
             "weight": 400
         },
-        "type4": {
-            "name": "Truck",
+        "Truck": {
             "weight": 5000
         }
     },
