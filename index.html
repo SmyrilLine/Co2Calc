@@ -41,6 +41,40 @@
             color: #333;
         }
 
+        /* Hide the default checkbox */
+        .Calculator input[type="checkbox"] {
+            display: none;
+        }
+
+        /* Style the label for the checkbox to create a custom checkbox design */
+        .Calculator label[for="roundtrip"] {
+            padding-bottom: 20px;
+        }
+        .Calculator label[for="roundtrip"]:before {
+            content: "";
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #666;
+            border-radius: 4px;
+            margin-right: 10px;
+            vertical-align: middle;
+            transition: background-color 0.2s;
+            text-align: center;
+            line-height: 20px; /* Same as the height of the box */
+        }
+
+        /* Style the checkbox when checked */
+        .Calculator input[type="checkbox"]:checked + label[for="roundtrip"]:before {
+            background-color: #007BFF;
+            border-color: #007BFF;
+            content: "\2713"; /* Unicode checkmark */
+            color: white;
+            font-size: 18px;
+            vertical-align: middle;
+        }
+
+
         .Calculator button {
             width: 100%;
             padding: 10px;
@@ -62,6 +96,13 @@
             margin-top: 20px;
             text-align: center;
         }
+
+        .notice {
+            font-size: 12px;
+            color: #666;
+            margin-top: 10px;
+            text-align: center;
+        }
     </style>
 </head>
 
@@ -71,7 +112,7 @@
         <h2>CO2 Emission Calculator</h2>
 
         <label for="month">Select Month:</label>
-        <select id="month">
+        <select id="month" class="emissionInput">
             <option value="January">January</option>
             <option value="February">February</option>
             <option value="March">March</option>
@@ -85,56 +126,44 @@
             <option value="November">November</option>
             <option value="December">December</option>
         </select>
-        <br><br>
 
         <label for="route">Select Route:</label>
-        <select id="route">
+        <select id="route" class="emissionInput">
             <option value="Torshavn_Hirtshals">Torshavn to Hirtshals</option>
             <option value="Torshavn_Seydisfjordur">Torshavn to Seydisfjordur</option>
             <option value="Hirtshals_Seydisfjordur">Hirtshals to Seydisfjordur</option>
         </select>
-        <br><br>
+
+        <input type="checkbox" id="roundtrip" value="roundtrip" class="emissionInput">
+        <label for="roundtrip">Round Trip:</label>
+
 
         <label for="vehicle">Select Vehicle:</label>
-        <select id="vehicle">
+        <select id="vehicle" class="emissionInput">
             <option value="none">No Vehicle</option>
             <option value="type1">Small Car</option>
             <option value="type2">SUV</option>
             <option value="type3">Motorcycle</option>
             <option value="type4">Truck</option>
         </select>
-        <br><br>
 
         <label for="passengers">Number of Passengers:</label>
-        <input type="number" id="passengers" value="1" min="1">
-        <br><br>
-
-        <button onclick="calculateEmission()">Calculate Emission</button>
-        <br><br>
+        <input type="number" id="passengers" value="1" min="1" class="emissionInput">
 
         <div id="result"></div>
 
-        <div>This is an experimental calculator, no real values are being use.</div>
+        <div class="notice">This is an experimental calculator, no real values are being use.</div>
     </div>
 
     <script>
         let co2Data = {};
-
-        // Fetch the data from the JSON file
-        fetch('data.json')
-            .then(response => response.json())
-            .then(data => {
-                co2Data = data;
-            })
-            .catch(error => {
-                console.error("Error fetching the JSON data:", error);
-            });
 
         function calculateEmission() {
             const month = document.getElementById("month").value;
             const route = document.getElementById("route").value;
             const passengers = parseInt(document.getElementById("passengers").value);
             const vehicle = document.getElementById("vehicle").value;
+            const roundtrip = document.getElementById("roundtrip").checked;
 
             const MonthData = co2Data.months[month];
             const routeDistance = co2Data.routes[route];
@@ -148,7 +177,7 @@
             const paxEmission = passengerEmission / passengers;
 
             // Calculate total emission
-            const totalEmission = passengerEmission + vehicleEmission;
+            const totalEmission = (passengerEmission + vehicleEmission) * (roundtrip ? 2 : 1);
 
             // Display the result
             const totalGrams = totalEmission.toFixed(2);
@@ -156,6 +185,23 @@
 
             document.getElementById("result").innerHTML = "Total CO2 Emission for " + passengers + " passengers: " + totalKg + " kg CO2";
         }
+
+        // Fetch the data from the JSON file
+        fetch('data.json')
+            .then(response => response.json())
+            .then(data => {
+                co2Data = data;
+                calculateEmission();
+
+                // Add a change event listener to each of them
+                let inputs = document.querySelectorAll('.emissionInput');
+                inputs.forEach(input => {
+                    input.addEventListener('change', calculateEmission);
+                });
+            })
+            .catch(error => {
+                console.error("Error fetching the JSON data:", error);
+            });
     </script>
 
 </body>
