@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CO2 Emission Calculator</title>
+    <style>
+        .Calculator {
+            font-family: Arial, sans-serif;
+            width: 300px;
+            background-color: #f5f5f5;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: 0 auto;
+        }
+
+        .Calculator h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+            text-align: center;
+        }
+
+        .Calculator label {
+            font-size: 14px;
+            color: #666;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .Calculator select,
+        .Calculator input {
+            width: 100%;
+            padding: 8px 10px;
+            font-size: 14px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .Calculator button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .Calculator button:hover {
+            background-color: #0056b3;
+        }
+
+        #result {
+            font-size: 16px;
+            color: #333;
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="Calculator">
+        <h2>CO2 Emission Calculator</h2>
+
+        <label for="month">Select Month:</label>
+        <select id="month">
+            <option value="January">January</option>
+            <option value="February">February</option>
+            <option value="March">March</option>
+            <option value="April">April</option>
+            <option value="May">May</option>
+            <option value="June">June</option>
+            <option value="July">July</option>
+            <option value="August">August</option>
+            <option value="September">September</option>
+            <option value="October">October</option>
+            <option value="November">November</option>
+            <option value="December">December</option>
+        </select>
+        <br><br>
+
+        <label for="route">Select Route:</label>
+        <select id="route">
+            <option value="Torshavn_Hirtshals">Torshavn to Hirtshals</option>
+            <option value="Torshavn_Seydisfjordur">Torshavn to Seydisfjordur</option>
+            <option value="Hirtshals_Seydisfjordur">Hirtshals to Seydisfjordur</option>
+        </select>
+        <br><br>
+
+        <label for="vehicle">Select Vehicle:</label>
+        <select id="vehicle">
+            <option value="none">No Vehicle</option>
+            <option value="type1">Small Car</option>
+            <option value="type2">SUV</option>
+            <option value="type3">Motorcycle</option>
+            <option value="type4">Truck</option>
+        </select>
+        <br><br>
+
+        <label for="passengers">Number of Passengers:</label>
+        <input type="number" id="passengers" value="1" min="1">
+        <br><br>
+
+        <button onclick="calculateEmission()">Calculate Emission</button>
+        <br><br>
+
+        <div id="result"></div>
+    </div>
+
+    <script>
+        let co2Data = {};
+
+        // Fetch the data from the JSON file
+        fetch('data.json')
+            .then(response => response.json())
+            .then(data => {
+                co2Data = data;
+            })
+            .catch(error => {
+                console.error("Error fetching the JSON data:", error);
+            });
+
+        function calculateEmission() {
+            const month = document.getElementById("month").value;
+            const route = document.getElementById("route").value;
+            const passengers = parseInt(document.getElementById("passengers").value);
+            const vehicle = document.getElementById("vehicle").value;
+
+            const MonthData = co2Data.months[month];
+            const routeDistance = co2Data.routes[route];
+
+            const vehicleWeight = (vehicle == 'none' ? 0 : co2Data.vehicles[vehicle].weight);
+
+            const vehicleEmission = vehicleWeight * MonthData.freight_emission
+
+            const passengerEmission = (MonthData.passenger_emission * routeDistance) * passengers;
+
+            const paxEmission = passengerEmission / passengers;
+
+            // Calculate total emission
+            const totalEmission = passengerEmission + vehicleEmission;
+
+            // Display the result
+            const totalGrams = totalEmission.toFixed(2);
+            const totalKg = (totalEmission / 1000).toFixed(2);
+
+            document.getElementById("result").innerHTML = "Total CO2 Emission for " + passengers + " passengers: " + totalKg + " kg CO2";
+        }
+    </script>
+
+</body>
+
+</html>

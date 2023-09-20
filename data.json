@@ -1,0 +1,99 @@
+{
+    "routes": {
+        "Torshavn_Hirtshals": 634.9892,
+        "Torshavn_Seydisfjordur": 275.378,
+        "Hirtshals_Seydisfjordur": 910.3672
+    },
+    "vehicles": {
+        "type1": {
+            "name": "Small Car",
+            "weight": 1500
+        },
+        "type2": {
+            "name": "SUV",
+            "weight": 2200
+        },
+        "type3": {
+            "name": "Motorcycle",
+            "weight": 400
+        },
+        "type4": {
+            "name": "Truck",
+            "weight": 5000
+        }
+    },
+    "months": {
+        "January": {
+            "passengers": 500,
+            "ship_emission_per_distance": 478.83,
+            "freight_emission": 279.61,
+            "passenger_emission": 137.89
+        },
+        "February": {
+            "passengers": 500,
+            "ship_emission_per_distance": 478.83,
+            "freight_emission": 279.61,
+            "passenger_emission": 137.89
+        },
+        "March": {
+            "passengers": 600,
+            "ship_emission_per_distance": 478.83,
+            "freight_emission": 279.61,
+            "passenger_emission": 137.89
+        },
+        "April": {
+            "passengers": 650,
+            "ship_emission_per_distance": 478.83,
+            "freight_emission": 279.61,
+            "passenger_emission": 137.89
+        },
+        "May": {
+            "passengers": 700,
+            "ship_emission_per_distance": 478.83,
+            "freight_emission": 279.61,
+            "passenger_emission": 137.89
+        },
+        "June": {
+            "passengers": 1200,
+            "ship_emission_per_distance": 478.83,
+            "freight_emission": 279.61,
+            "passenger_emission": 137.89
+        },
+        "July": {
+            "passengers": 1300,
+            "ship_emission_per_distance": 478.83,
+            "freight_emission": 279.61,
+            "passenger_emission": 137.89
+        },
+        "August": {
+            "passengers": 1200,
+            "ship_emission_per_distance": 478.83,
+            "freight_emission": 279.61,
+            "passenger_emission": 137.89
+        },
+        "September": {
+            "passengers": 1100,
+            "ship_emission_per_distance": 478.83,
+            "freight_emission": 279.61,
+            "passenger_emission": 137.89
+        },
+        "October": {
+            "passengers": 1000,
+            "ship_emission_per_distance": 478.83,
+            "freight_emission": 279.61,
+            "passenger_emission": 137.89
+        },
+        "November": {
+            "passengers": 750,
+            "ship_emission_per_distance": 478.83,
+            "freight_emission": 279.61,
+            "passenger_emission": 137.89
+        },
+        "December": {
+            "passengers": 600,
+            "ship_emission_per_distance": 478.83,
+            "freight_emission": 279.61,
+            "passenger_emission": 137.89
+        }
+    }
+}
