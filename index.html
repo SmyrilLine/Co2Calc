@@ -6,6 +6,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CO2 Emission Calculator</title>
     <style>
+        body {
+            margin: 0px;
+        }
+
+        .bckground {
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            background-image: url('SMLBck.jpg');
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+            z-index: -5;
+        }
+
         .Calculator {
             font-family: Arial, sans-serif;
             width: 300px;
@@ -107,7 +124,7 @@
 </head>
 
 <body>
-
+    <div class="bckground"></div>
     <div class="Calculator">
         <h2>CO2 Emission Calculator</h2>
 
