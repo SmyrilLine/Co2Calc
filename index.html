@@ -177,35 +177,52 @@
             const route = document.getElementById("route").value;
             const passengers = parseInt(document.getElementById("passengers").value);
             const vehicle = document.getElementById("vehicle").value;
-            const roundtrip = document.getElementById("roundtrip").checked;
+            const roundtrip = document.getElementById("roundtrip").checked ? 2 : 1;
+
+            const passengersPerMonth = Object.values(co2Data.months).map(month => month.passengers);
 
             const MonthData = co2Data.months[month];
             const routeDistance = co2Data.routes[route];
-
             const vehicleWeight = (vehicle == 'none' ? 0 : co2Data.vehicles[vehicle].weight);
 
-            const vehicleEmission = vehicleWeight * MonthData.freight_emission
+            const vehicleEmission = (vehicleWeight * co2Data.co2PerNauticalMilePerFreight);
 
-            const passengerEmission = (MonthData.passenger_emission * routeDistance) * passengers;
+            const baseCo2PerPax = (co2Data.co2PerNauticalMilePerPax * routeDistance); // ?? 1000
 
-            const paxEmission = passengerEmission / passengers;
+            const scalarFactor = 0.5;
 
-            // Calculate total emission
-            const totalEmission = (passengerEmission + vehicleEmission) * (roundtrip ? 2 : 1);
+            const minPassengers = Math.min(...passengersPerMonth);
+            const maxPassengers = Math.max(...passengersPerMonth);
+            const inverseNormalizedPassengers = passengersPerMonth.map(passengers => 
+                (1 + scalarFactor) - ((passengers - minPassengers) / (maxPassengers - minPassengers)) * ((1 + scalarFactor) - (1 - scalarFactor))
+            );
+
+            const adjustedCo2PerPax = inverseNormalizedPassengers.map(scalar => 
+                (baseCo2PerPax * scalar).toFixed(2) // rounding to 2 decimal places for clarity
+            );
+            const adjustedCo2PerMonth = {};
+            Object.keys(co2Data.months).forEach((month, index) => {
+                adjustedCo2PerMonth[month] = parseFloat(adjustedCo2PerPax[index]);
+            });
+
+            const paxEmission = (adjustedCo2PerMonth[month] * passengers);
+
+            // Calculate total emission in grams
+            const totalEmission = (adjustedCo2PerMonth[month] + vehicleEmission) * roundtrip;
 
             // Display the result
             const totalGrams = totalEmission.toFixed(2);
             const totalKg = (totalEmission / 1000).toFixed(2);
 
-            document.getElementById("result").innerHTML = "Total CO2 Emission for " + passengers + " passengers: " + totalKg + " kg CO2";
 
+            document.getElementById("result").innerHTML = "Total CO2 Emission for " + passengers + " passengers: " + totalKg + " kg CO2";
             document.getElementById("extra_info").innerHTML = "With an estimated " + MonthData.passengers + " passengers at " + month + ", with an average of " + gToKg(paxEmission) + " kg CO2 per pax";
 
             if(vehicle != 'none') {
                 document.getElementById("extra_info").innerHTML += " with the additional " + vehicleWeight.toFixed(2) + " kg of the " + vehicle.replace(/_/g, ' ') + ".";
             }
 
-            if(roundtrip) {
+            if(roundtrip == 2) {
                 document.getElementById("extra_info").innerHTML += " and the roundtrip distance of " + (routeDistance * 2).toFixed(2) + " nautical miles.";
             } else {
                 document.getElementById("extra_info").innerHTML += " and the distance of " + routeDistance.toFixed(2) + " nautical miles.";

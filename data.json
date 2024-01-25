@@ -21,78 +21,56 @@
             "weight": 5000
         }
     },
+    "co2PerNauticalMilePerPax": 197.68,
+    "co2PerNauticalMilePerFreight": 249.68,
     "months": {
         "January": {
-            "passengers": 500,
-            "ship_emission_per_distance": 478.83,
-            "freight_emission": 279.61,
-            "passenger_emission": 137.89
+            "co2": 1049.83,
+            "passengers": 361
         },
         "February": {
-            "passengers": 500,
-            "ship_emission_per_distance": 478.83,
-            "freight_emission": 279.61,
-            "passenger_emission": 137.89
+            "co2": 2377.17,
+            "passengers": 1070
         },
         "March": {
-            "passengers": 600,
-            "ship_emission_per_distance": 478.83,
-            "freight_emission": 279.61,
-            "passenger_emission": 137.89
+            "co2": 2948.08,
+            "passengers": 5312
         },
         "April": {
-            "passengers": 650,
-            "ship_emission_per_distance": 478.83,
-            "freight_emission": 279.61,
-            "passenger_emission": 137.89
+            "co2": 3154.51,
+            "passengers": 8752
         },
         "May": {
-            "passengers": 700,
-            "ship_emission_per_distance": 478.83,
-            "freight_emission": 279.61,
-            "passenger_emission": 137.89
+            "co2": 3294.43,
+            "passengers": 9492
         },
         "June": {
-            "passengers": 1200,
-            "ship_emission_per_distance": 478.83,
-            "freight_emission": 279.61,
-            "passenger_emission": 137.89
+            "co2": 5792.69,
+            "passengers": 15871
         },
         "July": {
-            "passengers": 1300,
-            "ship_emission_per_distance": 478.83,
-            "freight_emission": 279.61,
-            "passenger_emission": 137.89
+            "co2": 6800.8,
+            "passengers": 23693
         },
         "August": {
-            "passengers": 1200,
-            "ship_emission_per_distance": 478.83,
-            "freight_emission": 279.61,
-            "passenger_emission": 137.89
+            "co2": 5644.69,
+            "passengers": 19739
         },
         "September": {
-            "passengers": 1100,
-            "ship_emission_per_distance": 478.83,
-            "freight_emission": 279.61,
-            "passenger_emission": 137.89
+            "co2": 3424.61,
+            "passengers": 9664
         },
         "October": {
-            "passengers": 1000,
-            "ship_emission_per_distance": 478.83,
-            "freight_emission": 279.61,
-            "passenger_emission": 137.89
+            "co2": 3746.82,
+            "passengers": 8348
         },
         "November": {
-            "passengers": 750,
-            "ship_emission_per_distance": 478.83,
-            "freight_emission": 279.61,
-            "passenger_emission": 137.89
+            "co2": 3194.62,
+            "passengers": 5682
         },
         "December": {
-            "passengers": 600,
-            "ship_emission_per_distance": 478.83,
-            "freight_emission": 279.61,
-            "passenger_emission": 137.89
+            "co2": 2327.04,
+            "passengers": 820
         }
     }
 }
