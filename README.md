@@ -17,54 +17,62 @@ The mathematical model underpinning the Co2 Calc program is meticulously crafted
 
 2. **Base Vehicle Emission Calculation**:
    - The base emission for the vehicle is computed by multiplying the vehicle's weight with the Co2 emission factor per nautical mile per freight. This calculation yields the vehicle's emission contribution, independent of the passenger load.
-   $$
-   \text{vehicleEmission} = \text{vehicleWeight} \times \text{co2Data.co2PerNauticalMilePerFreight}
-   $$
+   
+$$
+\text{vehicleEmission} = \text{vehicleWeight} \times \text{co2Data.co2PerNauticalMilePerFreight}
+$$
 
 3. **Base Co2 Per Passenger**:
    - A preliminary per-passenger Co2 emission value is determined by multiplying the standard Co2 emission per nautical mile per passenger with the route distance. This value serves as a baseline before adjusting for passenger load variations.
-   $$
-   \text{baseCo2PerPax} = \text{co2Data.co2PerNauticalMilePerPax} \times \text{routeDistance}
-   $$
+ 
+$$
+\text{baseCo2PerPax} = \text{co2Data.co2PerNauticalMilePerPax} \times \text{routeDistance}
+$$
 
-4. **Passenger Load Normalization**:
+1. **Passenger Load Normalization**:
    - In this crucial step, the number of passengers is normalized against the observed range (minimum to maximum) of passenger numbers. This normalization process translates the raw passenger count into a standardized value between 0 and 1, reflecting the relative load compared to historical data.
-   $$
-   \text{normPassengers} = \frac{\text{passengers} - \text{minPassengers}}{\text{maxPassengers} - \text{minPassengers}}
-   $$
 
-5. **Scalar Factor Application**:
+$$
+\text{normPassengers} = \frac{\text{passengers} - \text{minPassengers}}{\text{maxPassengers} - \text{minPassengers}}
+$$
+
+2. **Scalar Factor Application**:
    - The normalized passenger load is further refined by applying a scalar factor. This factor adjusts the normalized value, ensuring that the Co2 emission per passenger is scaled appropriately to reflect periods of low or high passenger load.
-   $$
-   \text{inverseNormalizedPassengers} = (1 + \text{scalarFactor}) - \text{normPassengers} \times (2 \times \text{scalarFactor})
-   $$
 
-6. **Adjusted Co2 Per Passenger**:
+$$
+\text{inverseNormalizedPassengers} = (1 + \text{scalarFactor}) - \text{normPassengers} \times (2 \times \text{scalarFactor})
+$$
+
+1. **Adjusted Co2 Per Passenger**:
    - The Co2 emission per passenger is recalibrated using the scalar-adjusted load factor. This adjusted value represents a more accurate and equitable distribution of Co2 emissions among passengers, accounting for the variable passenger load.
-   $$
-   \text{adjustedCo2PerPax} = \text{inverseNormalizedPassengers.map}(scalar \Rightarrow (\text{baseCo2PerPax} \times scalar).toFixed(2))
-   $$
+   
+$$
+\text{adjustedCo2PerPax} = \text{inverseNormalizedPassengers.map}(scalar \Rightarrow (\text{baseCo2PerPax} \times scalar).toFixed(2))
+$$
 
-7. **Passenger Emission Calculation**:
+2. **Passenger Emission Calculation**:
    - The overall passenger emission is calculated by multiplying the adjusted Co2 per passenger with the total number of passengers.
-   $$
-   \text{paxEmission} = \text{adjustedCo2PerMonth}[month] \times passengers
-   $$
+   
+$$
+\text{paxEmission} = \text{adjustedCo2PerMonth}[month] \times passengers
+$$
 
-8. **Total Emission Computation**:
+3. **Total Emission Computation**:
    - The total Co2 emission for the journey is determined by summing the passenger emission and the vehicle emission. This sum is then adjusted based on whether the journey is a roundtrip or one-way.
-   $$
-   \text{totalEmission} = (\text{paxEmission} + \text{vehicleEmission}) \times \text{roundtrip}
-   $$
+   
+$$
+\text{totalEmission} = (\text{paxEmission} + \text{vehicleEmission}) \times \text{roundtrip}
+$$
 
-9. **Result Formatting and Presentation**:
+4. **Result Formatting and Presentation**:
    - Finally, the total emission figure is formatted for presentation. The emission is displayed in grams and also converted to kilograms for enhanced clarity and understanding.
-   $$
-   \text{totalGrams} = \text{totalEmission.toFixed}(2)
-   $$
-   $$
-   \text{totalKg} = (\text{totalEmission} / 1000).toFixed(2)
-   $$
+   
+$$
+\text{totalGrams} = \text{totalEmission.toFixed}(2)
+$$
+$$
+\text{totalKg} = (\text{totalEmission} / 1000).toFixed(2)
+$$
 
 This refined methodology ensures that the Co2 Calc program provides an accurate, fair, and contextually relevant assessment of individual Co2 emissions, empowering passengers with precise insights into their environmental footprint.
 
