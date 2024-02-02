@@ -168,6 +168,21 @@
             }
         }
 
+        function generateVehicleSelectOptions(data, selectElementId) {
+            const selectElement = document.getElementById(selectElementId);
+            for (const key in data) {
+                const vehicle = data[key]; // This is now an object with name, low, high
+                const option = document.createElement('option');
+                option.value = key; // You may want to keep this as the key (BIKE, BUS, etc.)
+                option.text = vehicle.name; // Use the name property for the option text
+                selectElement.appendChild(option);
+            }
+        }
+
+        function getVehicleWeight(data, vehicle) {
+            return (data.vehicleTypes[vehicle].low + data.vehicleTypes[vehicle].high) / 2;
+        }
+
         function gToKg(g) {
             return (g / 1000).toFixed(2);
         }
@@ -183,7 +198,7 @@
 
             const MonthData = co2Data.months[month];
             const routeDistance = co2Data.routes[route];
-            const vehicleWeight = (vehicle == 'none' ? 0 : co2Data.vehicles[vehicle].weight);
+            const vehicleWeight = (vehicle == 'none' ? 0 : getVehicleWeight(co2Data, vehicle));
 
             const vehicleEmission = (vehicleWeight * co2Data.co2PerNauticalMilePerFreight);
 
@@ -208,7 +223,7 @@
             const paxEmission = (adjustedCo2PerMonth[month] * passengers);
 
             // Calculate total emission in grams
-            const totalEmission = (adjustedCo2PerMonth[month] + vehicleEmission) * roundtrip;
+            const totalEmission = (paxEmission + vehicleEmission) * roundtrip;
 
             // Display the result
             const totalGrams = totalEmission.toFixed(2);
@@ -219,7 +234,7 @@
             document.getElementById("extra_info").innerHTML = "With an estimated " + MonthData.passengers + " passengers at " + month + ", with an average of " + gToKg(paxEmission) + " kg CO2 per pax";
 
             if(vehicle != 'none') {
-                document.getElementById("extra_info").innerHTML += " with the additional " + vehicleWeight.toFixed(2) + " kg of the " + vehicle.replace(/_/g, ' ') + ".";
+                document.getElementById("extra_info").innerHTML += " with the additional " + vehicleWeight.toFixed(2) + " kg of the " + vehicle.replace(/_/g, ' ') + " taking on " + gToKg(vehicleEmission) + " kg CO2 of the emission.";
             }
 
             if(roundtrip == 2) {
@@ -238,7 +253,7 @@
                 // Generate the select options
                 generateSelectOptions(co2Data.months, "month");
                 generateSelectOptions(co2Data.routes, "route");
-                generateSelectOptions(co2Data.vehicles, "vehicle");
+                generateVehicleSelectOptions(co2Data.vehicleTypes, "vehicle");
 
                 // Initial calculation
                 calculateEmission();

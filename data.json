@@ -1,4 +1,6 @@
 {
+    "info": "Information about the ferry routes, passengers and vehicles",
+    "year": 2023,
     "routes": {
         "Torshavn-Hirtshals": 634.9892,
         "Hirtshals-Torshavn": 634.9892,
@@ -7,70 +9,316 @@
         "Hirtshals-Seydisfjordur": 910.3672,
         "Seydisfjordur-Hirtshals": 910.3672
     },
-    "vehicles": {
-        "Small_Car": {
-            "weight": 1500
+    "vehicleTypes": {
+        "BIKE": {
+            "name": "Bike",
+            "low": 7,
+            "high": 14
         },
-        "SUV": {
-            "weight": 2200
+        "BUS": {
+            "name": "Coach up to 14m L",
+            "low": 12000,
+            "high": 18000
         },
-        "Motorcycle": {
-            "weight": 400
+        "CAR": {
+            "name": "Car below 1.9m H and Max 5m L",
+            "low": 1500,
+            "high": 2200
         },
-        "Truck": {
-            "weight": 5000
+        "CARE": {
+            "name": "Electric car below 1.9m H and 5m L",
+            "low": 1800,
+            "high": 2500
+        },
+        "CARH": {
+            "name": "Car over 2.5 meters Height and max 5 meters Length",
+            "low": 2000,
+            "high": 3000
+        },
+        "CARHE": {
+            "name": "Electric car over 2.5 meters Height and max 5 meters Length",
+            "low": 2500,
+            "high": 3500
+        },
+        "CARM": {
+            "name": "Car 1.9-2.5 meters Height and max 5 meters Length",
+            "low": 1800,
+            "high": 2300
+        },
+        "CARMD": {
+            "name": "Car for disabled 1.9-2.5 meters Height and max 5 meters Length",
+            "low": 2000,
+            "high": 3000
+        },
+        "CARME": {
+            "name": "Electric car 1.9-2.5 meters Height and max 5 meters Length",
+            "low": 2000,
+            "high": 2800
+        },
+        "CVAN": {
+            "name": "Car and caravan",
+            "low": 3500,
+            "high": 7000
+        },
+        "CVANE": {
+            "name": "Electric car and caravan",
+            "low": 4000,
+            "high": 8000
+        },
+        "MC": {
+            "name": "Motorcycle",
+            "low": 150,
+            "high": 400
+        },
+        "MCS": {
+            "name": "Motorcycle with sidecar",
+            "low": 350,
+            "high": 500
         }
     },
     "co2PerNauticalMilePerPax": 197.68,
     "co2PerNauticalMilePerFreight": 249.68,
+    "co2PassengerScalarFactor": 0.963,
     "months": {
         "January": {
             "co2": 1049.83,
-            "passengers": 361
+            "passengers": 361,
+            "vehicles": {
+                "BIKE": 1,
+                "BUS": 0,
+                "CAR": 149,
+                "CARE": 6,
+                "CARH": 3,
+                "CARHE": 0,
+                "CARM": 6,
+                "CARMD": 0,
+                "CARME": 0,
+                "CVAN": 2,
+                "CVANE": 0,
+                "MC": 1,
+                "MCS": 0,
+                "Total": 168
+            }
         },
         "February": {
             "co2": 2377.17,
-            "passengers": 1070
+            "passengers": 1070,
+            "vehicles": {
+                "BIKE": 0,
+                "BUS": 0,
+                "CAR": 405,
+                "CARE": 13,
+                "CARH": 5,
+                "CARHE": 0,
+                "CARM": 36,
+                "CARMD": 0,
+                "CARME": 1,
+                "CVAN": 2,
+                "CVANE": 0,
+                "MC": 0,
+                "MCS": 0,
+                "Total": 462
+            }
         },
         "March": {
             "co2": 2948.08,
-            "passengers": 5312
+            "passengers": 5312,
+            "vehicles": {
+                "BIKE": 5,
+                "BUS": 29,
+                "CAR": 1061,
+                "CARE": 38,
+                "CARH": 41,
+                "CARHE": 1,
+                "CARM": 89,
+                "CARMD": 0,
+                "CARME": 2,
+                "CVAN": 3,
+                "CVANE": 0,
+                "MC": 10,
+                "MCS": 0,
+                "Total": 1279
+            }
         },
         "April": {
             "co2": 3154.51,
-            "passengers": 8752
+            "passengers": 8752,
+            "vehicles": {
+                "BIKE": 15,
+                "BUS": 88,
+                "CAR": 1214,
+                "CARE": 49,
+                "CARH": 135,
+                "CARHE": 0,
+                "CARM": 220,
+                "CARMD": 0,
+                "CARME": 0,
+                "CVAN": 7,
+                "CVANE": 0,
+                "MC": 13,
+                "MCS": 0,
+                "Total": 1741
+            }
         },
         "May": {
             "co2": 3294.43,
-            "passengers": 9492
+            "passengers": 9492,
+            "vehicles": {
+                "BIKE": 76,
+                "BUS": 30,
+                "CAR": 1824,
+                "CARE": 60,
+                "CARH": 745,
+                "CARHE": 0,
+                "CARM": 648,
+                "CARMD": 0,
+                "CARME": 2,
+                "CVAN": 28,
+                "CVANE": 0,
+                "MC": 281,
+                "MCS": 3,
+                "Total": 3697
+            }
         },
         "June": {
             "co2": 5792.69,
-            "passengers": 15871
+            "passengers": 15871,
+            "vehicles": {
+                "BIKE": 136,
+                "BUS": 23,
+                "CAR": 3252,
+                "CARE": 155,
+                "CARH": 1412,
+                "CARHE": 4,
+                "CARM": 1261,
+                "CARMD": 0,
+                "CARME": 11,
+                "CVAN": 73,
+                "CVANE": 0,
+                "MC": 984,
+                "MCS": 7,
+                "Total": 7318
+            }
         },
         "July": {
             "co2": 6800.8,
-            "passengers": 23693
+            "passengers": 23693,
+            "vehicles": {
+                "BIKE": 165,
+                "BUS": 7,
+                "CAR": 4569,
+                "CARE": 246,
+                "CARH": 1350,
+                "CARHE": 2,
+                "CARM": 1787,
+                "CARMD": 0,
+                "CARME": 14,
+                "CVAN": 79,
+                "CVANE": 2,
+                "MC": 1267,
+                "MCS": 2,
+                "Total": 9490
+            }
         },
         "August": {
             "co2": 5644.69,
-            "passengers": 19739
+            "passengers": 19739,
+            "vehicles": {
+                "BIKE": 145,
+                "BUS": 2,
+                "CAR": 3597,
+                "CARE": 183,
+                "CARH": 1268,
+                "CARHE": 4,
+                "CARM": 2134,
+                "CARMD": 0,
+                "CARME": 10,
+                "CVAN": 39,
+                "CVANE": 0,
+                "MC": 1131,
+                "MCS": 4,
+                "Total": 8517
+            }
         },
         "September": {
             "co2": 3424.61,
-            "passengers": 9664
+            "passengers": 9664,
+            "vehicles": {
+                "BIKE": 73,
+                "BUS": 25,
+                "CAR": 1913,
+                "CARE": 100,
+                "CARH": 770,
+                "CARHE": 0,
+                "CARM": 884,
+                "CARMD": 0,
+                "CARME": 1,
+                "CVAN": 19,
+                "CVANE": 0,
+                "MC": 278,
+                "MCS": 6,
+                "Total": 4069
+            }
         },
         "October": {
             "co2": 3746.82,
-            "passengers": 8348
+            "passengers": 8348,
+            "vehicles": {
+                "BIKE": 22,
+                "BUS": 65,
+                "CAR": 1448,
+                "CARE": 79,
+                "CARH": 238,
+                "CARHE": 0,
+                "CARM": 258,
+                "CARMD": 1,
+                "CARME": 0,
+                "CVAN": 14,
+                "CVANE": 0,
+                "MC": 21,
+                "MCS": 0,
+                "Total": 2146
+            }
         },
         "November": {
             "co2": 3194.62,
-            "passengers": 5682
+            "passengers": 5682,
+            "vehicles": {
+                "BIKE": 13,
+                "BUS": 0,
+                "CAR": 1265,
+                "CARE": 50,
+                "CARH": 84,
+                "CARHE": 0,
+                "CARM": 158,
+                "CARMD": 0,
+                "CARME": 2,
+                "CVAN": 3,
+                "CVANE": 0,
+                "MC": 0,
+                "MCS": 0,
+                "Total": 1575
+            }
         },
         "December": {
             "co2": 2327.04,
-            "passengers": 820
+            "passengers": 820,
+            "vehicles": {
+                "BIKE": 1,
+                "BUS": 0,
+                "CAR": 306,
+                "CARE": 15,
+                "CARH": 6,
+                "CARHE": 0,
+                "CARM": 26,
+                "CARMD": 0,
+                "CARME": 0,
+                "CVAN": 2,
+                "CVANE": 0,
+                "MC": 0,
+                "MCS": 0,
+                "Total": 356
+            }
         }
     }
 }
