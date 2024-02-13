@@ -76,8 +76,8 @@
             "high": 500
         }
     },
+    "paxAvgWeight": 59.65,
     "co2PerNauticalMilePerPax": 197.68,
-    "co2PerNauticalMilePerFreight": 249.68,
     "co2PassengerScalarFactor": 0.963,
     "months": {
         "January": {

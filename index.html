@@ -179,6 +179,28 @@
             }
         }
 
+        function calculateTotalVehicleWeight(vehicleTypes, monthlyData) {
+            let totalWeight = 0;
+            for (const vehicleType in monthlyData.vehicles) {
+                if (vehicleType !== 'Total') {
+                    const count = monthlyData.vehicles[vehicleType];
+                    const avgWeight = (vehicleTypes[vehicleType].low + vehicleTypes[vehicleType].high) / 2;
+                    totalWeight += count * avgWeight;
+                }
+            }
+            return totalWeight;
+        }
+
+        function calculatePercentages(totalVehicleWeight, totalPaxWeight) {
+            const totalWeight = totalVehicleWeight + totalPaxWeight;
+            const vehicleWeightPercent = (totalVehicleWeight / totalWeight);
+            const paxWeightPercent = (totalPaxWeight / totalWeight);
+            return {
+                vehicleWeightPercent: vehicleWeightPercent.toFixed(2), // rounding to 2 decimal places
+                paxWeightPercent: paxWeightPercent.toFixed(2) // rounding to 2 decimal places
+            };
+        }
+
         function getVehicleWeight(data, vehicle) {
             return (data.vehicleTypes[vehicle].low + data.vehicleTypes[vehicle].high) / 2;
         }
@@ -196,15 +218,22 @@
 
             const passengersPerMonth = Object.values(co2Data.months).map(month => month.passengers);
 
+            const totalVehicleWeightMonthly = calculateTotalVehicleWeight(co2Data.vehicleTypes, co2Data.months[month]);
+            const totalPaxWeightMonthly = co2Data.months[month].passengers * co2Data.paxAvgWeight;
+            const percentages = calculatePercentages(totalVehicleWeightMonthly, totalPaxWeightMonthly);
+
+            const paxCo2 = co2Data.co2PerNauticalMilePerPax * percentages.paxWeightPercent;
+            const vehicleCo2 = co2Data.co2PerNauticalMilePerPax * percentages.vehicleWeightPercent;
+
             const MonthData = co2Data.months[month];
             const routeDistance = co2Data.routes[route];
             const vehicleWeight = (vehicle == 'none' ? 0 : getVehicleWeight(co2Data, vehicle));
 
-            const vehicleEmission = (vehicleWeight * co2Data.co2PerNauticalMilePerFreight);
+            const vehicleEmission = (vehicleWeight * vehicleCo2);
 
-            const baseCo2PerPax = (co2Data.co2PerNauticalMilePerPax * routeDistance); // ?? 1000
+            const baseCo2PerPax = (paxCo2 * routeDistance); // ?? 1000
 
-            const scalarFactor = 0.5;
+            const scalarFactor = co2Data.co2PassengerScalarFactor;
 
             const minPassengers = Math.min(...passengersPerMonth);
             const maxPassengers = Math.max(...passengersPerMonth);
