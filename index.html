@@ -249,7 +249,9 @@
                 adjustedCo2PerMonth[month] = parseFloat(adjustedCo2PerPax[index]);
             });
 
-            const paxEmission = (adjustedCo2PerMonth[month] * passengers);
+            //const paxEmission = (adjustedCo2PerMonth[month] * passengers);
+
+            const paxEmission = (baseCo2PerPax * passengers);
 
             // Calculate total emission in grams
             const totalEmission = (paxEmission + vehicleEmission) * roundtrip;
