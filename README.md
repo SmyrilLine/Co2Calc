@@ -15,56 +15,65 @@ The mathematical model underpinning the Co2 Calc program is meticulously crafted
    - The model begins by collating essential input parameters from the user. These parameters include `month`, `route`, `passengers`, `vehicle`, and `roundtrip` status.
    - It then retrieves the corresponding data for the specified month (`MonthData`), the distance of the chosen route (`routeDistance`), and the weight of the selected vehicle (`vehicleWeight`). This data forms the foundational base for subsequent calculations.
 
-2. **Base Vehicle Emission Calculation**:
-   - The base emission for the vehicle is computed by multiplying the vehicle's weight with the Co2 emission factor per nautical mile per freight. This calculation yields the vehicle's emission contribution, independent of the passenger load.
+2. **Weight Distribution and Emission Calculation**
+   - The Co2 emission per nautical mile per passenger (`co2PerNauticalMilePerPax`) is split between the weight distribution of the passengers and the vehicle. This is done by calculating the weight percentages of passengers and vehicles, respectively.
+
+$$
+\text{paxCo2} = \text{co2PerNauticalMilePerPax} \times \text{paxWeightPercent}
+$$
+
+$$
+\text{vehicleCo2} = \text{co2PerNauticalMilePerPax} \times \text{vehicleWeightPercent}
+$$
    
+- The vehicle's Co2 emission is computed by multiplying its weight with its corresponding Co2 emission factor (`vehicleCo2`).
+
 $$
-\text{vehicleEmission} = \text{vehicleWeight} \times \text{co2Data.co2PerNauticalMilePerFreight}
+\text{vehicleEmission} = \left(\frac{\text{vehicleWeight}}{1000}\right) \times \left(\text{vehicleCo2} \times \text{routeDistance}\right)
 $$
 
-3. **Base Co2 Per Passenger**:
-   - A preliminary per-passenger Co2 emission value is determined by multiplying the standard Co2 emission per nautical mile per passenger with the route distance. This value serves as a baseline before adjusting for passenger load variations.
- 
+- The base Co2 emission per passenger is determined by multiplying the passenger-specific Co2 emission factor (`paxCo2`) with the route distance.
+
 $$
-\text{baseCo2PerPax} = \text{co2Data.co2PerNauticalMilePerPax} \times \text{routeDistance}
+\text{baseCo2PerPax} = \text{paxCo2} \times \text{routeDistance}
 $$
 
-1. **Passenger Load Normalization**:
+3. **Passenger Load Normalization**:
    - In this crucial step, the number of passengers is normalized against the observed range (minimum to maximum) of passenger numbers. This normalization process translates the raw passenger count into a standardized value between 0 and 1, reflecting the relative load compared to historical data.
 
 $$
 \text{normPassengers} = \frac{\text{passengers} - \text{minPassengers}}{\text{maxPassengers} - \text{minPassengers}}
 $$
 
-2. **Scalar Factor Application**:
+4. **Scalar Factor Application**:
    - The normalized passenger load is further refined by applying a scalar factor. This factor adjusts the normalized value, ensuring that the Co2 emission per passenger is scaled appropriately to reflect periods of low or high passenger load.
 
 $$
 \text{inverseNormalizedPassengers} = (1 + \text{scalarFactor}) - \text{normPassengers} \times (2 \times \text{scalarFactor})
 $$
 
-1. **Adjusted Co2 Per Passenger**:
+5. **Adjusted Co2 Per Passenger**:
    - The Co2 emission per passenger is recalibrated using the scalar-adjusted load factor. This adjusted value represents a more accurate and equitable distribution of Co2 emissions among passengers, accounting for the variable passenger load.
    
 $$
 \text{adjustedCo2PerPax} = \text{inverseNormalizedPassengers.map}(scalar \Rightarrow (\text{baseCo2PerPax} \times scalar).toFixed(2))
 $$
 
-2. **Passenger Emission Calculation**:
+6. **Passenger Emission Calculation**:
    - The overall passenger emission is calculated by multiplying the adjusted Co2 per passenger with the total number of passengers.
    
 $$
 \text{paxEmission} = \text{adjustedCo2PerMonth}[month] \times passengers
 $$
 
-3. **Total Emission Computation**:
+7. **Total Emission Computation**:
    - The total Co2 emission for the journey is determined by summing the passenger emission and the vehicle emission. This sum is then adjusted based on whether the journey is a roundtrip or one-way.
    
 $$
 \text{totalEmission} = (\text{paxEmission} + \text{vehicleEmission}) \times \text{roundtrip}
 $$
 
-4. **Result Formatting and Presentation**:
+8. **Result Formatting and Presentation**:
    - Finally, the total emission figure is formatted for presentation. The emission is displayed in grams and also converted to kilograms for enhanced clarity and understanding.
    
 $$
@@ -122,8 +131,8 @@ $$
 scalarFactor = |r_{xy}|
 $$
 
-It is approximately 0.963. This indicates a very strong positive relationship between the two variables. The absolute value of the correlation coefficient hence can be a good choice for the scalarFactor.
-This means 96.3% of the variability in CO2 emissions can be explained by the passenger count. Using this as a scalarFactor would thus imply that the CO2 emissions calculation would be scaled and adjusted according to the passenger count, giving a fair distribution of CO2 responsibility.
+It is approximately 0.037. This indicates a very strong positive relationship between the two variables. The absolute value of the correlation coefficient hence can be a good choice for the scalarFactor.
+This means 3.7% of the variability in CO2 emissions can be explained by the passenger count. Using this as a scalarFactor would thus imply that the CO2 emissions calculation would be scaled and adjusted according to the passenger count, giving a fair distribution of CO2 responsibility.
 
 In summary, the `scalarFactor` is a vital component of the Co2 emissions calculation, ensuring that the model is dynamic, adaptable, and fair in attributing Co2 responsibility to individual passengers.
 
@@ -135,8 +144,7 @@ The data is a projection based on the previous year's data as not much changes f
 ### General Information
 - **Year**: 2023
 - **CO2 Emissions per Nautical Mile per Passenger**: 197.68
-- **CO2 Emissions per Nautical Mile per Freight**: 249.68
-- **CO2 Passenger Scalar Factor**: 0.963
+- **CO2 Passenger Scalar Factor**: 0.037
 
 ### Ferry Routes (Distance in Nautical Miles)
 | Route                     | Distance (Nautical Miles) |
@@ -153,7 +161,7 @@ The data is a projection based on the previous year's data as not much changes f
 | Code | Vehicle Type                                     | Weight Low (Kg) | Weight High (Kg) |
 |------|--------------------------------------------------|----------------|-----------------|
 | BIKE | Bike                                            | 7              | 14              |
-| BUS  | Coach up to 14m L                               | 12000          | 18000           |
+| BUS  | Coach up to 14m L                               | 206.9          | 333.33           |
 | CAR  | Car below 1.9m H and Max 5m L                   | 1500           | 2200            |
 | CARE | Electric car below 1.9m H and 5m L              | 1800           | 2500            |
 | CARH | Car over 2.5 meters Height and max 5 meters Length | 2000       | 3000            |

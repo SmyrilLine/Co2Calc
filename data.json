@@ -17,8 +17,8 @@
         },
         "BUS": {
             "name": "Coach up to 14m L",
-            "low": 12000,
-            "high": 18000
+            "low": 206.9,
+            "high": 333.33
         },
         "CAR": {
             "name": "Car below 1.9m H and Max 5m L",

@@ -229,11 +229,11 @@
             const routeDistance = co2Data.routes[route];
             const vehicleWeight = (vehicle == 'none' ? 0 : getVehicleWeight(co2Data, vehicle));
 
-            const vehicleEmission = (vehicleWeight * vehicleCo2);
+            const vehicleEmission = ((vehicleWeight/1000) * (vehicleCo2 * routeDistance));
 
             const baseCo2PerPax = (paxCo2 * routeDistance); // ?? 1000
 
-            const scalarFactor = co2Data.co2PassengerScalarFactor;
+            const scalarFactor = (co2Data.co2PassengerScalarFactor);
 
             const minPassengers = Math.min(...passengersPerMonth);
             const maxPassengers = Math.max(...passengersPerMonth);
@@ -249,9 +249,7 @@
                 adjustedCo2PerMonth[month] = parseFloat(adjustedCo2PerPax[index]);
             });
 
-            //const paxEmission = (adjustedCo2PerMonth[month] * passengers);
-
-            const paxEmission = (baseCo2PerPax * passengers);
+            const paxEmission = (adjustedCo2PerMonth[month] * passengers);
 
             // Calculate total emission in grams
             const totalEmission = (paxEmission + vehicleEmission) * roundtrip;
