@@ -13,7 +13,8 @@
         .bckground {
             height: 100%;
             width: 100%;
-            position: absolute;
+            top: 0px;
+            position: fixed;
             background-image: url('SMLBck.jpg');
             background-position: center;
             background-repeat: no-repeat;
@@ -30,7 +31,7 @@
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin: 0 auto;
+            margin: 20px auto;
         }
 
         .Calculator h2 {
@@ -126,7 +127,7 @@
 <body>
     <div class="bckground"></div>
     <div class="Calculator">
-        <h2>CO2 Emission Calculator</h2>
+        <h2>MV Norröna Co2 Emission Calculator</h2>
 
         <label for="month">Select Month:</label>
         <select id="month" class="emissionInput">
@@ -152,7 +153,7 @@
 
         <div id="extra_info" class="notice"></div>
 
-        <div class="notice">This is an experimental calculator, no real values are being use.</div>
+        <div class="notice">More information can be found here: <a href="README.html" target="_blank">ReadMe</a></div>
     </div>
 
     <script>

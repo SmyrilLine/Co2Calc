@@ -1,5 +1,9 @@
 # Co2 Calc
 
+## Disclaimer
+**Smyrilline assumes no responsibility or liability for any errors or omissions in the content of this site. 
+The information contained in this site is provided on an "as is" basis with no guarantees of completeness, accuracy, usefulness or timeliness...**
+
 ### Objective
 The Co2 Calc program is designed to provide a transparent and sophisticated interface, enabling passengers to assess their individual Co2 emissions contribution. This assessment is intricately calculated based on an array of pivotal travel-related factors including the chosen route, the month of travel, vehicle type, and the nature of the journey (roundtrip or one-way). A distinctive feature of this program is the integration of a scalar factor, which meticulously adjusts the emissions calculation to align with the relative passenger load for a given month. This ensures a nuanced and contextually estimation of each individual's Co2 responsibility.
 
@@ -194,4 +198,5 @@ The data is a projection based on the previous year's data as not much changes f
 
 ## Final Note
 
-Co2 Mission pr passenger and freight as well vehicle weight and more has been collected from a deep dive in our booking system and Co2 reports from 2023.. these values are then used to approximate the Co2 Emission of a passengers journey for the next year. this will of course need to be mended on any given year and perhaps also refined.
+Co2 Emission pr passenger and freight as well vehicle weight and more has been collected from a deep dive in our booking system and Co2 reports from 2023.. these values are then used to approximate the Co2 Emission of a passengers journey for the next year. this will of course need to be mended on any given year and perhaps also refined. this is also very generalized, one cannot accuratly predict with 100% accuracy. the footprint of the indivitual when measuring a ship of this size.
+If you identify any inconsistencies or inaccuracies within this project, we welcome your insights. Please reach out at: theos@smyrilline.fo

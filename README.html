@@ -11,7 +11,9 @@
  *--------------------------------------------------------------------------------------------*/
 
 .vscode-dark img[src$=\#gh-light-mode-only],
-.vscode-light img[src$=\#gh-dark-mode-only] {
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
 	display: none;
 }
 
@@ -138,6 +140,9 @@
         </head>
         <body class="vscode-body vscode-light">
             <h1 id="co2-calc">Co2 Calc</h1>
+<h2 id="disclaimer">Disclaimer</h2>
+<p><strong>Smyrilline assumes no responsibility or liability for any errors or omissions in the content of this site.
+The information contained in this site is provided on an &quot;as is&quot; basis with no guarantees of completeness, accuracy, usefulness or timeliness...</strong></p>
 <h3 id="objective">Objective</h3>
 <p>The Co2 Calc program is designed to provide a transparent and sophisticated interface, enabling passengers to assess their individual Co2 emissions contribution. This assessment is intricately calculated based on an array of pivotal travel-related factors including the chosen route, the month of travel, vehicle type, and the nature of the journey (roundtrip or one-way). A distinctive feature of this program is the integration of a scalar factor, which meticulously adjusts the emissions calculation to align with the relative passenger load for a given month. This ensures a nuanced and contextually estimation of each individual's Co2 responsibility.</p>
 <p>It is imperative to recognize the variability in trip compositions—ranging from voyages predominantly consisting of cargo with a minimal passenger count, to those heavily laden with passengers and minimal cargo. In scenarios where a voyage carries a mere handful of passengers amidst substantial cargo, it is inequitable for these few individuals to bear the full environmental cost typically distributed among a larger passenger cohort.</p>
@@ -509,7 +514,8 @@ This means 3.7% of the variability in CO2 emissions can be explained by the pass
 </tbody>
 </table>
 <h2 id="final-note">Final Note</h2>
-<p>Co2 Mission pr passenger and freight as well vehicle weight and more has been collected from a deep dive in our booking system and Co2 reports from 2023.. these values are then used to approximate the Co2 Emission of a passengers journey for the next year. this will of course need to be mended on any given year and perhaps also refined.</p>
+<p>Co2 Emission pr passenger and freight as well vehicle weight and more has been collected from a deep dive in our booking system and Co2 reports from 2023.. these values are then used to approximate the Co2 Emission of a passengers journey for the next year. this will of course need to be mended on any given year and perhaps also refined. this is also very generalized, one cannot accuratly predict with 100% accuracy. the footprint of the indivitual when measuring a ship of this size.
+If you identify any inconsistencies or inaccuracies within this project, we welcome your insights. Please reach out at: <a href="mailto:theos@smyrilline.fo">theos@smyrilline.fo</a></p>
 
             <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
             
