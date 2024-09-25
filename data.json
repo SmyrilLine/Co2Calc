@@ -2,12 +2,12 @@
     "info": "Information about the ferry routes, passengers and vehicles",
     "year": 2023,
     "routes": {
-        "Torshavn-Hirtshals": 634.9892,
-        "Hirtshals-Torshavn": 634.9892,
-        "Torshavn-Seydisfjordur": 275.378,
-        "Seydisfjordur-Torshavn": 275.378,
-        "Hirtshals-Seydisfjordur": 910.3672,
-        "Seydisfjordur-Hirtshals": 910.3672
+        "Torshavn-Hirtshals": 585,
+        "Hirtshals-Torshavn": 585,
+        "Torshavn-Seydisfjordur": 292,
+        "Seydisfjordur-Torshavn": 292,
+        "Hirtshals-Seydisfjordur": 877,
+        "Seydisfjordur-Hirtshals": 877
     },
     "vehicleTypes": {
         "BIKE": {
