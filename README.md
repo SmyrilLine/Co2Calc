@@ -153,12 +153,12 @@ The data is a projection based on the previous year's data as not much changes f
 ### Ferry Routes (Distance in Nautical Miles)
 | Route                     | Distance (Nautical Miles) |
 |---------------------------|--------------------------:|
-| Torshavn-Hirtshals        | 634.9892                  |
-| Hirtshals-Torshavn        | 634.9892                  |
-| Torshavn-Seydisfjordur    | 275.378                   |
-| Seydisfjordur-Torshavn    | 275.378                   |
-| Hirtshals-Seydisfjordur   | 910.3672                  |
-| Seydisfjordur-Hirtshals   | 910.3672                  |
+| Torshavn-Hirtshals        | 585                       |
+| Hirtshals-Torshavn        | 585                       |
+| Torshavn-Seydisfjordur    | 292                       |
+| Seydisfjordur-Torshavn    | 292                       |
+| Hirtshals-Seydisfjordur   | 877                       |
+| Seydisfjordur-Hirtshals   | 877                       |
 
 ### Vehicle Types and Weight Range
 
