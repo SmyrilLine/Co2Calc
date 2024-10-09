@@ -9,295 +9,304 @@
         body {
             margin: 0px;
         }
-
-        .bckground {
-            height: 100%;
-            width: 100%;
-            top: 0px;
-            position: fixed;
-            background-image: url('SMLBck.jpg');
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;
-            margin: 0;
-            padding: 0;
-            z-index: -5;
-        }
-
-        .Calculator {
-            font-family: Arial, sans-serif;
-            width: 300px;
-            background-color: #f5f5f5;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin: 20px auto;
-        }
-
-        .Calculator h2 {
-            font-size: 24px;
-            margin-bottom: 20px;
-            color: #333;
-            text-align: center;
-        }
-
-        .Calculator label {
-            font-size: 14px;
-            color: #666;
-            display: block;
-            margin-bottom: 8px;
-        }
-
-        .Calculator select,
-        .Calculator input {
-            width: 100%;
-            padding: 8px 10px;
-            font-size: 14px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            margin-bottom: 20px;
-            color: #333;
-        }
-
-        /* Hide the default checkbox */
-        .Calculator input[type="checkbox"] {
-            display: none;
-        }
-
-        /* Style the label for the checkbox to create a custom checkbox design */
-        .Calculator label[for="roundtrip"] {
-            padding-bottom: 20px;
-        }
-        .Calculator label[for="roundtrip"]:before {
-            content: "";
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 2px solid #666;
-            border-radius: 4px;
-            margin-right: 10px;
-            vertical-align: middle;
-            transition: background-color 0.2s;
-            text-align: center;
-            line-height: 20px; /* Same as the height of the box */
-        }
-
-        /* Style the checkbox when checked */
-        .Calculator input[type="checkbox"]:checked + label[for="roundtrip"]:before {
-            background-color: #007BFF;
-            border-color: #007BFF;
-            content: "\2713"; /* Unicode checkmark */
-            color: white;
-            font-size: 18px;
-            vertical-align: middle;
-        }
-
-
-        .Calculator button {
-            width: 100%;
-            padding: 10px;
-            background-color: #007BFF;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .Calculator button:hover {
-            background-color: #0056b3;
-        }
-
-        #result {
-            font-size: 16px;
-            color: #333;
-            margin-top: 20px;
-            text-align: center;
-        }
-
-        .notice {
-            font-size: 12px;
-            color: #666;
-            margin-top: 10px;
-            text-align: center;
-        }
     </style>
 </head>
 
 <body>
-    <div class="bckground"></div>
-    <div class="Calculator">
-        <h2>MV Norröna Co2 Emission Calculator</h2>
-
-        <label for="month">Select Month:</label>
-        <select id="month" class="emissionInput">
-        </select>
-
-        <label for="route">Select Route:</label>
-        <select id="route" class="emissionInput">
-        </select>
-
-        <input type="checkbox" id="roundtrip" value="roundtrip" class="emissionInput">
-        <label for="roundtrip">Round Trip:</label>
-
-
-        <label for="vehicle">Select Vehicle:</label>
-        <select id="vehicle" class="emissionInput">
-            <option value="none">No Vehicle</option>
-        </select>
-
-        <label for="passengers">Number of Passengers:</label>
-        <input type="number" id="passengers" value="1" min="1" class="emissionInput" style="width: 93%;">
-
-        <div id="result"></div>
-
-        <div id="extra_info" class="notice"></div>
-
-        <div class="notice">More information can be found here: <a href="README.html" target="_blank">ReadMe</a></div>
-    </div>
-
-    <script>
-        let co2Data = {};
-
-        function generateSelectOptions(data, selectElementId) {
-            const selectElement = document.getElementById(selectElementId);
-            for (const key in data) {
-                const option = document.createElement('option');
-                option.value = key;
-                option.text = key.replace(/_/g, ' ').replace(/-/g, ' to ');
-                selectElement.appendChild(option);
+    <co2calc>
+        <style>
+            co2calc .bckground {
+                height: 100%;
+                width: 100%;
+                top: 0px;
+                position: fixed;
+                background-image: url('SMLBck.jpg');
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: cover;
+                margin: 0;
+                padding: 0;
+                z-index: -5;
             }
-        }
 
-        function generateVehicleSelectOptions(data, selectElementId) {
-            const selectElement = document.getElementById(selectElementId);
-            for (const key in data) {
-                const vehicle = data[key]; // This is now an object with name, low, high
-                const option = document.createElement('option');
-                option.value = key; // You may want to keep this as the key (BIKE, BUS, etc.)
-                option.text = vehicle.name; // Use the name property for the option text
-                selectElement.appendChild(option);
+            co2calc .Calculator {
+                font-family: Arial, sans-serif;
+                width: 300px;
+                background-color: #f5f5f5;
+                padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                margin: 20px auto;
             }
-        }
 
-        function calculateTotalVehicleWeight(vehicleTypes, monthlyData) {
-            let totalWeight = 0;
-            for (const vehicleType in monthlyData.vehicles) {
-                if (vehicleType !== 'Total') {
-                    const count = monthlyData.vehicles[vehicleType];
-                    const avgWeight = (vehicleTypes[vehicleType].low + vehicleTypes[vehicleType].high) / 2;
-                    totalWeight += count * avgWeight;
+            co2calc .Calculator h2 {
+                font-size: 24px;
+                margin-bottom: 20px;
+                color: #333;
+                text-align: center;
+            }
+
+            co2calc .Calculator label {
+                font-size: 14px;
+                color: #666;
+                display: block;
+                margin-bottom: 8px;
+            }
+
+            co2calc .Calculator select,
+            co2calc .Calculator input {
+                width: 100%;
+                padding: 8px 10px;
+                font-size: 14px;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+                margin-bottom: 20px;
+                color: #333;
+            }
+
+            /* Hide the default checkbox */
+            co2calc .Calculator input[type="checkbox"] {
+                display: none;
+            }
+
+            /* Style the label for the checkbox to create a custom checkbox design */
+            co2calc .Calculator label[for="roundtrip"] {
+                padding-bottom: 20px;
+            }
+
+            co2calc .Calculator label[for="roundtrip"]:before {
+                content: "";
+                display: inline-block;
+                width: 20px;
+                height: 20px;
+                border: 2px solid #666;
+                border-radius: 4px;
+                margin-right: 10px;
+                vertical-align: middle;
+                transition: background-color 0.2s;
+                text-align: center;
+                line-height: 20px;
+                /* Same as the height of the box */
+            }
+
+            /* Style the checkbox when checked */
+            co2calc .Calculator input[type="checkbox"]:checked+label[for="roundtrip"]:before {
+                background-color: #007BFF;
+                border-color: #007BFF;
+                content: "\2713";
+                /* Unicode checkmark */
+                color: white;
+                font-size: 18px;
+                vertical-align: middle;
+            }
+
+
+            co2calc .Calculator button {
+                width: 100%;
+                padding: 10px;
+                background-color: #007BFF;
+                color: #fff;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                transition: background-color 0.3s;
+            }
+
+            co2calc .Calculator button:hover {
+                background-color: #0056b3;
+            }
+
+            co2calc #result {
+                font-size: 16px;
+                color: #333;
+                margin-top: 20px;
+                text-align: center;
+            }
+
+            co2calc .notice {
+                font-size: 12px;
+                color: #666;
+                margin-top: 10px;
+                text-align: center;
+            }
+        </style>
+
+        <div class="bckground"></div>
+        <div class="Calculator">
+            <h2>MV Norröna Co2 Emission Calculator</h2>
+
+            <label for="month">Select Month:</label>
+            <select id="month" class="emissionInput">
+            </select>
+
+            <label for="route">Select Route:</label>
+            <select id="route" class="emissionInput">
+            </select>
+
+            <input type="checkbox" id="roundtrip" value="roundtrip" class="emissionInput">
+            <label for="roundtrip">Round Trip:</label>
+
+
+            <label for="vehicle">Select Vehicle:</label>
+            <select id="vehicle" class="emissionInput">
+                <option value="none">No Vehicle</option>
+            </select>
+
+            <label for="passengers">Number of Passengers:</label>
+            <input type="number" id="passengers" value="1" min="1" class="emissionInput" style="width: 93%;">
+
+            <div id="result"></div>
+
+            <div id="extra_info" class="notice"></div>
+
+            <div class="notice">More information can be found here: <a href="README.html" target="_blank">ReadMe</a>
+            </div>
+        </div>
+
+        <script>
+            let co2Data = {};
+
+            function generateSelectOptions(data, selectElementId) {
+                const selectElement = document.getElementById(selectElementId);
+                for (const key in data) {
+                    const option = document.createElement('option');
+                    option.value = key;
+                    option.text = key.replace(/_/g, ' ').replace(/-/g, ' to ');
+                    selectElement.appendChild(option);
                 }
             }
-            return totalWeight;
-        }
 
-        function calculatePercentages(totalVehicleWeight, totalPaxWeight) {
-            const totalWeight = totalVehicleWeight + totalPaxWeight;
-            const vehicleWeightPercent = (totalVehicleWeight / totalWeight);
-            const paxWeightPercent = (totalPaxWeight / totalWeight);
-            return {
-                vehicleWeightPercent: vehicleWeightPercent.toFixed(2), // rounding to 2 decimal places
-                paxWeightPercent: paxWeightPercent.toFixed(2) // rounding to 2 decimal places
-            };
-        }
-
-        function getVehicleWeight(data, vehicle) {
-            return (data.vehicleTypes[vehicle].low + data.vehicleTypes[vehicle].high) / 2;
-        }
-
-        function gToKg(g) {
-            return (g / 1000).toFixed(2);
-        }
-
-        function calculateEmission() {
-            const month = document.getElementById("month").value;
-            const route = document.getElementById("route").value;
-            const passengers = parseInt(document.getElementById("passengers").value);
-            const vehicle = document.getElementById("vehicle").value;
-            const roundtrip = document.getElementById("roundtrip").checked ? 2 : 1;
-
-            const passengersPerMonth = Object.values(co2Data.months).map(month => month.passengers);
-
-            const totalVehicleWeightMonthly = calculateTotalVehicleWeight(co2Data.vehicleTypes, co2Data.months[month]);
-            const totalPaxWeightMonthly = co2Data.months[month].passengers * co2Data.paxAvgWeight;
-            const percentages = calculatePercentages(totalVehicleWeightMonthly, totalPaxWeightMonthly);
-
-            const paxCo2 = co2Data.co2PerNauticalMilePerPax * percentages.paxWeightPercent;
-            const vehicleCo2 = co2Data.co2PerNauticalMilePerPax * percentages.vehicleWeightPercent;
-
-            const MonthData = co2Data.months[month];
-            const routeDistance = co2Data.routes[route];
-            const vehicleWeight = (vehicle == 'none' ? 0 : getVehicleWeight(co2Data, vehicle));
-
-            const vehicleEmission = ((vehicleWeight/1000) * (vehicleCo2 * routeDistance));
-
-            const baseCo2PerPax = (paxCo2 * routeDistance); // ?? 1000
-
-            const scalarFactor = (co2Data.co2PassengerScalarFactor);
-
-            const minPassengers = Math.min(...passengersPerMonth);
-            const maxPassengers = Math.max(...passengersPerMonth);
-            const inverseNormalizedPassengers = passengersPerMonth.map(passengers => 
-                (1 + scalarFactor) - ((passengers - minPassengers) / (maxPassengers - minPassengers)) * ((1 + scalarFactor) - (1 - scalarFactor))
-            );
-
-            const adjustedCo2PerPax = inverseNormalizedPassengers.map(scalar => 
-                (baseCo2PerPax * scalar).toFixed(2) // rounding to 2 decimal places for clarity
-            );
-            const adjustedCo2PerMonth = {};
-            Object.keys(co2Data.months).forEach((month, index) => {
-                adjustedCo2PerMonth[month] = parseFloat(adjustedCo2PerPax[index]);
-            });
-
-            const paxEmission = (adjustedCo2PerMonth[month] * passengers);
-
-            // Calculate total emission in grams
-            const totalEmission = (paxEmission + vehicleEmission) * roundtrip;
-
-            // Display the result
-            const totalGrams = totalEmission.toFixed(2);
-            const totalKg = (totalEmission / 1000).toFixed(2);
-
-
-            document.getElementById("result").innerHTML = "Total CO2 Emission for " + passengers + " passengers: " + totalKg + " kg CO2";
-            document.getElementById("extra_info").innerHTML = "With an estimated " + MonthData.passengers + " passengers at " + month + ", with an average of " + gToKg(paxEmission) + " kg CO2 per pax";
-
-            if(vehicle != 'none') {
-                document.getElementById("extra_info").innerHTML += " with the additional " + vehicleWeight.toFixed(2) + " kg of the " + vehicle.replace(/_/g, ' ') + " taking on " + gToKg(vehicleEmission) + " kg CO2 of the emission.";
+            function generateVehicleSelectOptions(data, selectElementId) {
+                const selectElement = document.getElementById(selectElementId);
+                for (const key in data) {
+                    const vehicle = data[key]; // This is now an object with name, low, high
+                    const option = document.createElement('option');
+                    option.value = key; // You may want to keep this as the key (BIKE, BUS, etc.)
+                    option.text = vehicle.name; // Use the name property for the option text
+                    selectElement.appendChild(option);
+                }
             }
 
-            if(roundtrip == 2) {
-                document.getElementById("extra_info").innerHTML += " and the roundtrip distance of " + (routeDistance * 2).toFixed(2) + " nautical miles.";
-            } else {
-                document.getElementById("extra_info").innerHTML += " and the distance of " + routeDistance.toFixed(2) + " nautical miles.";
+            function calculateTotalVehicleWeight(vehicleTypes, monthlyData) {
+                let totalWeight = 0;
+                for (const vehicleType in monthlyData.vehicles) {
+                    if (vehicleType !== 'Total') {
+                        const count = monthlyData.vehicles[vehicleType];
+                        const avgWeight = (vehicleTypes[vehicleType].low + vehicleTypes[vehicleType].high) / 2;
+                        totalWeight += count * avgWeight;
+                    }
+                }
+                return totalWeight;
             }
-        }
 
-        // Fetch the data from the JSON file
-        fetch('data.json')
-            .then(response => response.json())
-            .then(data => {
-                co2Data = data;
+            function calculatePercentages(totalVehicleWeight, totalPaxWeight) {
+                const totalWeight = totalVehicleWeight + totalPaxWeight;
+                const vehicleWeightPercent = (totalVehicleWeight / totalWeight);
+                const paxWeightPercent = (totalPaxWeight / totalWeight);
+                return {
+                    vehicleWeightPercent: vehicleWeightPercent.toFixed(2), // rounding to 2 decimal places
+                    paxWeightPercent: paxWeightPercent.toFixed(2) // rounding to 2 decimal places
+                };
+            }
 
-                // Generate the select options
-                generateSelectOptions(co2Data.months, "month");
-                generateSelectOptions(co2Data.routes, "route");
-                generateVehicleSelectOptions(co2Data.vehicleTypes, "vehicle");
+            function getVehicleWeight(data, vehicle) {
+                return (data.vehicleTypes[vehicle].low + data.vehicleTypes[vehicle].high) / 2;
+            }
 
-                // Initial calculation
-                calculateEmission();
+            function gToKg(g) {
+                return (g / 1000).toFixed(2);
+            }
 
-                // Add a change event listener to each of them
-                let inputs = document.querySelectorAll('.emissionInput');
-                inputs.forEach(input => {
-                    input.addEventListener('change', calculateEmission);
+            function calculateEmission() {
+                const month = document.getElementById("month").value;
+                const route = document.getElementById("route").value;
+                const passengers = parseInt(document.getElementById("passengers").value);
+                const vehicle = document.getElementById("vehicle").value;
+                const roundtrip = document.getElementById("roundtrip").checked ? 2 : 1;
+
+                const passengersPerMonth = Object.values(co2Data.months).map(month => month.passengers);
+
+                const totalVehicleWeightMonthly = calculateTotalVehicleWeight(co2Data.vehicleTypes, co2Data.months[month]);
+                const totalPaxWeightMonthly = co2Data.months[month].passengers * co2Data.paxAvgWeight;
+                const percentages = calculatePercentages(totalVehicleWeightMonthly, totalPaxWeightMonthly);
+
+                const paxCo2 = co2Data.co2PerNauticalMilePerPax * percentages.paxWeightPercent;
+                const vehicleCo2 = co2Data.co2PerNauticalMilePerPax * percentages.vehicleWeightPercent;
+
+                const MonthData = co2Data.months[month];
+                const routeDistance = co2Data.routes[route];
+                const vehicleWeight = (vehicle == 'none' ? 0 : getVehicleWeight(co2Data, vehicle));
+
+                const vehicleEmission = ((vehicleWeight / 1000) * (vehicleCo2 * routeDistance));
+
+                const baseCo2PerPax = (paxCo2 * routeDistance); // ?? 1000
+
+                const scalarFactor = (co2Data.co2PassengerScalarFactor);
+
+                const minPassengers = Math.min(...passengersPerMonth);
+                const maxPassengers = Math.max(...passengersPerMonth);
+                const inverseNormalizedPassengers = passengersPerMonth.map(passengers =>
+                    (1 + scalarFactor) - ((passengers - minPassengers) / (maxPassengers - minPassengers)) * ((1 + scalarFactor) - (1 - scalarFactor))
+                );
+
+                const adjustedCo2PerPax = inverseNormalizedPassengers.map(scalar =>
+                    (baseCo2PerPax * scalar).toFixed(2) // rounding to 2 decimal places for clarity
+                );
+                const adjustedCo2PerMonth = {};
+                Object.keys(co2Data.months).forEach((month, index) => {
+                    adjustedCo2PerMonth[month] = parseFloat(adjustedCo2PerPax[index]);
                 });
-            })
-            .catch(error => {
-                console.error("Error fetching the JSON data:", error);
-            });
-    </script>
+
+                const paxEmission = (adjustedCo2PerMonth[month] * passengers);
+
+                // Calculate total emission in grams
+                const totalEmission = (paxEmission + vehicleEmission) * roundtrip;
+
+                // Display the result
+                const totalGrams = totalEmission.toFixed(2);
+                const totalKg = (totalEmission / 1000).toFixed(2);
+
+
+                document.getElementById("result").innerHTML = "Total CO2 Emission for " + passengers + " passengers: " + totalKg + " kg CO2";
+                document.getElementById("extra_info").innerHTML = "With an estimated " + MonthData.passengers + " passengers at " + month + ", with an average of " + gToKg(paxEmission) + " kg CO2 per pax";
+
+                if (vehicle != 'none') {
+                    document.getElementById("extra_info").innerHTML += " with the additional " + vehicleWeight.toFixed(2) + " kg of the " + vehicle.replace(/_/g, ' ') + " taking on " + gToKg(vehicleEmission) + " kg CO2 of the emission.";
+                }
+
+                if (roundtrip == 2) {
+                    document.getElementById("extra_info").innerHTML += " and the roundtrip distance of " + (routeDistance * 2).toFixed(2) + " nautical miles.";
+                } else {
+                    document.getElementById("extra_info").innerHTML += " and the distance of " + routeDistance.toFixed(2) + " nautical miles.";
+                }
+            }
+
+            // Fetch the data from the JSON file
+            fetch('data.json')
+                .then(response => response.json())
+                .then(data => {
+                    co2Data = data;
+
+                    // Generate the select options
+                    generateSelectOptions(co2Data.months, "month");
+                    generateSelectOptions(co2Data.routes, "route");
+                    generateVehicleSelectOptions(co2Data.vehicleTypes, "vehicle");
+
+                    // Initial calculation
+                    calculateEmission();
+
+                    // Add a change event listener to each of them
+                    let inputs = document.querySelectorAll('.emissionInput');
+                    inputs.forEach(input => {
+                        input.addEventListener('change', calculateEmission);
+                    });
+                })
+                .catch(error => {
+                    console.error("Error fetching the JSON data:", error);
+                });
+        </script>
+
+    </co2calc>
 
 </body>
 
